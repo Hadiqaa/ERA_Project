@@ -7,39 +7,46 @@ import {Text,
         SafeAreaView,
         StyleSheet,
         TextInput,
-        Button,
-        TouchableOpacity
+        TouchableOpacity,
           } from "react-native";
 
- const baseUrl = "http://10.0.0.2:1337";
+ const baseUrl = "http://192.168.18.5:1337";
 
 const Register = ({navigation}) => {
    const [name, setName] = useState('');
    const [email, setEmail] = useState('');
    const [phone, setPhone] = useState('');
    const [password, setPassword] = useState('');
- const [checked, setChecked] = React.useState('first');
- const [isLoading, setIsLoading] = useState(false);
-
-//  const onChangeNameHandler = (name) => {
-//   setName(name);
-// };
+   const [checked, setChecked] = useState('user');
+   const [isLoading, setIsLoading] = useState(false);
 
 
+
+   const handleSubmit = () => {
+    console.log('handleSubmit ran');
+    
+
+    setName('');
+    setEmail('');
+    setPhone('');
+    setPassword('');
+  };
 
 
 const onSubmitFormHandler = async (event) => {
   console.log('calling');
- 
+ if(validator()) {
+
   setIsLoading(true);
-  axios.post(`${baseUrl}/api/users`, {
-    name,
+  axios.post(`${baseUrl}/api/auth/local/register`, {
+    username : name,
     email,
     phone,
     password,
     checked,
   }).then(data => {
     console.log('succeeded');
+    handleSubmit();
     setIsLoading(false);
     console.log(data);
   }).catch(e => {
@@ -47,26 +54,10 @@ const onSubmitFormHandler = async (event) => {
     setIsLoading(false);
     console.log(e);
   });
-  // try {
-  //   const response = await axios.post(`${baseUrl}/api/users`, {
-  //     name,
-  //     email,
-  //     phone,
-  //     password,
-  //     checked,
-  //   });
-  //   if (response.status === 201) {
-  //     alert(` You have created: ${JSON.stringify(response.data)}`);
-  //     setIsLoading(false);
-  //     setFullName('');
-  //     setEmail('');
-  //   } else {
-  //     throw new Error("An error has occurred");
-  //   }
-  // } catch (error) {
-  //   alert("An error has occurred");
-  //   setIsLoading(false);
-  // } 
+  
+ }
+ 
+ 
 }
 
 
@@ -110,14 +101,14 @@ validator = ( ) => {
 
   return (
 
-<View style={styles.container}>
-
+<ScrollView contentContainerStyle={styles.contentContainer}>
       <View style={styles.inputView} >
       <TextInput
             style={styles.TextInput}
             placeholder="Name"
             placeholderTextColor="#939393"
             onChangeText={(name) => setName(name)}
+            value={name}
             />
         </View>
 
@@ -129,6 +120,7 @@ validator = ( ) => {
           placeholder="Email"
           placeholderTextColor="#939393"
           onChangeText={(email) => setEmail(email)}
+          value={email}
           />
       </View>
 
@@ -139,6 +131,7 @@ validator = ( ) => {
         placeholder="Phone No."
         placeholderTextColor="#939393"
         onChangeText={(phone) => setPhone(phone)}
+        value={phone}
       />
     </View>
 
@@ -150,6 +143,7 @@ validator = ( ) => {
         placeholderTextColor="#939393"
         secureTextEntry={true}
         onChangeText={(password) => setPassword(password)}
+        value={password}
       />
     </View>
 
@@ -159,8 +153,8 @@ validator = ( ) => {
        <Text style={styles.radio_txt}>User</Text>
         <RadioButton
           value={checked}
-          status={ checked === 'first' ? 'checked' : 'unchecked' }
-          onPress={() => setChecked('first')}
+          status={ checked === 'user' ? 'checked' : 'unchecked' }
+          onPress={() => setChecked('user')}
           
         />
 
@@ -168,8 +162,8 @@ validator = ( ) => {
         <Text style={styles.radio_txt}>Volunteer</Text>
         <RadioButton
           value={checked}
-          status={ checked === 'second' ? 'checked' : 'unchecked' }
-          onPress={() => setChecked('second')}
+          status={ checked === 'volunteer' ? 'checked' : 'unchecked' }
+          onPress={() => setChecked('volunteer')}
         />
 
     </View>
@@ -178,7 +172,7 @@ validator = ( ) => {
             <TouchableOpacity
             //  disabled={isLoading}
             activeOpacity={0.5}
-            onPress={onSubmitFormHandler}
+            onPress={()=>{onSubmitFormHandler()}}
             style={styles.register_btn}>
              <Text style={styles.buttonText} >Register </Text>
            </TouchableOpacity>
@@ -198,7 +192,7 @@ validator = ( ) => {
     </View>
 
 
-</View>
+</ScrollView>
 
   );
 
@@ -207,7 +201,7 @@ validator = ( ) => {
 const styles = StyleSheet.create({
 
 
-  container: {
+  contentContainer: {
     height:"100%",
     backgroundColor: 'rgba(59,59,59,255)',
     alignItems: 'center',

@@ -1,4 +1,5 @@
 import React , {useState} from 'react';
+import axios from "axios";
 
 import {Text,
         View ,
@@ -10,11 +11,13 @@ import {Text,
           } from "react-native";
 
 
+   const baseUrl = "http://192.168.18.5:1337";
 
 const Login = ({navigation}) => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
 
 loginValidator = ()=> {
@@ -29,13 +32,37 @@ const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
   } else if (!strongRegex.test(email)){
     alert("Please Enter a valid Email")
     return false;
-  } else if (password.length < 8) {
-    alert("Password must be 8 digit long")
+  } else if (password.length < 6) {
+    alert("Please Enter a Valid password")
     return false;
   }
 
   return true;
 
+}
+
+
+const onSubmitFormHandler = async (event) => {
+  console.log('Logged in');
+ if(loginValidator()) {
+
+  setIsLoading(true);
+  axios.post(`${baseUrl}/api/auth/local`, {
+
+    email,
+    password,
+    
+  }).then(data => {
+    console.log('succeeded');
+    setIsLoading(false);
+    console.log(data);
+  }).catch(e => {
+    console.log('failed');
+    setIsLoading(false);
+    console.log(e);
+  });
+  
+ }
 }
 
 
@@ -56,7 +83,7 @@ const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
                 placeholder="Email"
                 placeholderTextColor="#939393"
                 onChangeText={(email) => setEmail(email)}
-
+                value={email}
                   />
             </View>
 
@@ -67,6 +94,7 @@ const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
               placeholderTextColor="#939393"
               secureTextEntry={true}
               onChangeText={(password) => setPassword(password)}
+              value={password}
             />
 
           </View>
@@ -75,7 +103,7 @@ const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$
 
                 <TouchableOpacity
                 activeOpacity={0.5}
-                 onPress={()=>{loginValidator();}}
+                 onPress={()=>{onSubmitFormHandler();}}
                 style={styles.loginbtn}>
                  <Text style={styles.buttonText} >Login </Text>
                </TouchableOpacity>

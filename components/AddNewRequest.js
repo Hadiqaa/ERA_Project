@@ -1,4 +1,5 @@
 //USER SCREEN // WORKING ON THIS ONE RN
+import axios from "axios";
 import React,  {Component} from 'react';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
@@ -15,17 +16,18 @@ import {Text,
           } from "react-native";
 
 
+
+          const baseUrl = "http://192.168.18.5:1337";
+
  export default class AddNewRequest extends Component  {
-   contstructor() {
+   contstructor(props) {
+    //super(props);
+
     this.state = {
       title: "",
-      des:"",
-      address:""
-
+      description:"",
+      address:"",
       }
-      this.state.title={newTitle}
-      this.state.title={newDes}
-      this.state.title={newAddress}
    }
 
 
@@ -73,7 +75,7 @@ Validator = ()=> {
   if (title== "") {
     alert("Please Enter a Title")
     return false;
-  } else if (des == ""){
+  } else if (description == ""){
     alert("Please Enter the  Description")
     return false;
   } else if (address == "") {
@@ -84,6 +86,26 @@ Validator = ()=> {
   return true;
 
 }
+
+onSubmitFormHandler = async (event) => {
+  console.log('calling');
+
+  setIsLoading(true);
+  axios.post(`${baseUrl}/api/requests`, {
+    title: this.state.title,
+    description: this.state.description
+  }).then(data => {
+    console.log('succeeded');
+    setIsLoading(false);
+    console.log(data);
+  }).catch(e => {
+    console.log('failed');
+    setIsLoading(false);
+    console.log(e);
+  });
+  
+ }
+ 
 
 
 
@@ -101,14 +123,14 @@ render () {
                    ref={map => this._map = map}
                    provider={PROVIDER_GOOGLE}
                    style={styles.map}
-                   region={{
+                   initialRegion={{
                     latitude : 31.458145,
                     longitude:74.333131,
                     latitudeDelta: 0.015,
                     longitudeDelta: 0.0121,
                    }}
                  >
-                       <Marker
+                       <Marker 
 
                        coordinate = {{latitude : 31.456283, longitude:74.338255}}
 
@@ -132,7 +154,8 @@ render () {
                                <View style={styles.commonstyle} >
                                 <TextInput
                                  style={styles.titleinput}
-                                 onChange={()=>this.setState({newTitle})}
+                                 onChange={(newTitle)=>this.setState({ title: newTitle })}
+                                 value={this.title}
                                   />
                                 </View>
 
@@ -142,7 +165,8 @@ render () {
                                  <TextInput  style={styles.titleinput}
                                              multiline = {true}
                                              numberOfLines = {2}
-                                             onChange={()=>this.setState({newDes})}
+                                             onChange={(newDescription)=>this.setState({description: newDescription})}
+                                             value={this.description}
                                                />
                                  </View>
 
@@ -153,13 +177,15 @@ render () {
                                   <TextInput  style={styles.titleinput}
                                               multiline = {true}
                                               numberOfLines = {2}
-                                              onChange={()=>this.setState({newAddress})} />
+                                              onChange={(newAddress)=>this.setState({address: newAddress})} 
+                                              value={this.address}/>
+                                              
                                   </View>
 
 
                                   <View style={styles.commonstyle} >
                                   <TouchableOpacity style={styles.button}
-                                  onPress={this.Validator}
+                                  onPress={this.onSubmitFormHandler}
                                   >
                                       <Text style={styles.buttonText}>
                                        Add Request
@@ -204,6 +230,10 @@ add_req:{
   flex:1,
   backgroundColor:'white',
 
+},
+
+title: {
+  color: '#000'
 },
 
 titleinput:{
