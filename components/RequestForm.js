@@ -26,8 +26,10 @@ const RequestForm = () => {
     if (validateRequestFields()) {
       axios
         .post(`${baseUrl}/api/requests`, {
-          title,
-          description,
+          data: {
+            title,
+            description,
+          },
         })
         .then(data => {
           console.log('succeeded');
