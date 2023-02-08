@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import axios from 'axios';
 
-const baseUrl = 'http://192.168.18.6:1337';
+const baseUrl = 'http://192.168.18.5:1337';
 
-const RequestForm = () => {
+const RequestForm = (props) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [address, setAddress] = useState('');
@@ -29,6 +29,8 @@ const RequestForm = () => {
           data: {
             title,
             description,
+            task_location_lat: props.lat,
+            task_location_lng: props.long
           },
         })
         .then(data => {

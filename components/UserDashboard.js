@@ -7,7 +7,7 @@ import {Text,
         TouchableOpacity,
           } from "react-native";
 
-const UserDashboard = () => {
+const UserDashboard = ({navigation}) => {
 
 
 
@@ -18,7 +18,8 @@ const UserDashboard = () => {
 
              <TouchableOpacity
              activeOpacity={0.3}
-             style={styles.bttn}>
+             style={styles.bttn}
+             onPress={() => navigation.navigate('AddNewRequest')}>
               <Text style={styles.buttonText} >Add New Request</Text>
             </TouchableOpacity>
 
@@ -29,7 +30,8 @@ const UserDashboard = () => {
 
               <TouchableOpacity
               activeOpacity={0.3}
-              style={styles.bttn}>
+              style={styles.bttn}
+              onPress={() => navigation.navigate('RequestsDetail')}>
                <Text style={styles.buttonText} >Request Details Page</Text>
              </TouchableOpacity>
 

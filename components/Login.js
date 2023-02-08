@@ -1,6 +1,7 @@
 import React , {useState} from 'react';
 import axios from "axios";
-
+import { useNavigation } from '@react-navigation/native';
+import Dashboard from './Dashboard';
 import {Text,
         View ,
         SafeAreaView,
@@ -13,26 +14,22 @@ import {Text,
 
    const baseUrl = "http://192.168.18.5:1337";
 
-const Login = ({navigation}) => {
+const Login = ({}) => {
 
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+  const navigation = useNavigation();
 
 loginValidator = ()=> {
-const strongRegex = new RegExp("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");
 
-  if (email== "") {
-    alert("Please Enter Email")
+  if (username== "") {
+    alert("Please Enter username")
     return false;
-  } else if (password == ""){
+  } if (password == ""){
     alert("Please Enter Password")
     return false;
-  } else if (!strongRegex.test(email)){
-    alert("Please Enter a valid Email")
-    return false;
-  } else if (password.length < 6) {
+  } if (password.length < 6) {
     alert("Please Enter a Valid password")
     return false;
   }
@@ -49,13 +46,22 @@ const onSubmitFormHandler = async (event) => {
   setIsLoading(true);
   axios.post(`${baseUrl}/api/auth/local`, {
 
-    email,
+    identifier: username,
     password,
     
-  }).then(data => {
+  }).then(res => {
+    if(res.data.user.roles === 'volunteer'){
+     navigation.navigate('Dashboard')
+  
+    }
+    if(res.data.user.roles === 'user'){
+      navigation.navigate('UserDashboard')
+   
+     }
+    
     console.log('succeeded');
     setIsLoading(false);
-    console.log(data);
+    console.log(res);
   }).catch(e => {
     console.log('failed');
     setIsLoading(false);
@@ -64,9 +70,6 @@ const onSubmitFormHandler = async (event) => {
   
  }
 }
-
-
-
 
 
 
@@ -80,10 +83,10 @@ const onSubmitFormHandler = async (event) => {
           <TextInput
 
                 style={styles.TextInput}
-                placeholder="Email"
+                placeholder="Username"
                 placeholderTextColor="#939393"
-                onChangeText={(email) => setEmail(email)}
-                value={email}
+                onChangeText={(username) => setUsername(username)}
+                value={username}
                   />
             </View>
 

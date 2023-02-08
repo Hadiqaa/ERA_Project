@@ -1,3 +1,4 @@
+//Volunteer screen
 import React,  {useState, useEffect, Component} from 'react';
 import MapView, { PROVIDER_GOOGLE, Marker, Callout } from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
@@ -12,10 +13,10 @@ import {Text,
 
 
  export default class Dashboard extends Component  {
-   contstructor() {
-     state();
-
-   }
+  state = {
+    lat: 31.458145,
+    long: 74.333131
+  }
 
  componentDidMount(){
    this.requestLocationPermission();
@@ -88,14 +89,26 @@ import {Text,
           }
     }
 
-locateCurrentPosition =() => {
-
-
-  Geolocation.getCurrentPosition(
-    (success)=>{console.log(success)}, (e)=>{console.log(e)}, {timeout: 20000}
-
-  )
-}
+    locateCurrentPosition = () => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          console.log(position);
+          const currentLongitude =
+          JSON.stringify(position.coords.longitude);
+          this.setState({
+            lat: position.coords.latitude,
+            long: position.coords.longitude
+          });
+  
+          const currentLatitude =
+          JSON.stringify(position.coords.latitude);
+        },
+        e => {
+          console.log(e);
+        },
+        {enableHighAccuracy:true,timeout: 20000},
+      );
+    };
 
 
 
@@ -110,15 +123,15 @@ render () {
                provider={PROVIDER_GOOGLE}
                style={styles.map}
                region={{
-                latitude : 31.458145,
-                longitude:74.333131,
+                latitude: this.state.lat,
+                longitude: this.state.long,
                 latitudeDelta: 0.015,
                 longitudeDelta: 0.0121,
                }}
              >
                  <Marker
 
-                 coordinate = {{latitude : 31.456283, longitude:74.338255}}
+                 coordinate = {{latitude : 24.89795, longitude:67.16903}}
                  onPress ={this.request}
                  title = {'Home'}
 

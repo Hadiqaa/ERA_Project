@@ -16,9 +16,19 @@ import {
   ScrollView,
 } from 'react-native';
 
-export default class GoogleMapRequestDisplay extends Component {
-  contstructor(props) {
-    // do something later
+class GoogleMapRequestDisplay extends React.Component {
+  // contstructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     lat: 31.458145,
+  //     long: 74.333131
+  //   };
+
+  //   this.locateCurrentPosition = this.locateCurrentPosition.bind(this);
+  // }
+  state = {
+    lat: 31.458145,
+    long: 74.333131
   }
 
   componentDidMount() {
@@ -43,17 +53,27 @@ export default class GoogleMapRequestDisplay extends Component {
 
   locateCurrentPosition = () => {
     Geolocation.getCurrentPosition(
-      success => {
-        console.log(success);
+      (position) => {
+        console.log(position);
+        const currentLongitude =
+        JSON.stringify(position.coords.longitude);
+        this.setState({
+          lat: position.coords.latitude,
+          long: position.coords.longitude
+        });
+
+        const currentLatitude =
+        JSON.stringify(position.coords.latitude);
       },
       e => {
         console.log(e);
       },
-      {timeout: 20000},
+      {enableHighAccuracy:true,timeout: 20000},
     );
   };
 
   render() {
+    console.log(this.state);
     return (
       <View style={styles.container}>
         <View style={styles.mapcontainer}>
@@ -62,21 +82,36 @@ export default class GoogleMapRequestDisplay extends Component {
             ref={map => (this._map = map)}
             provider={PROVIDER_GOOGLE}
             style={styles.map}
-            initialRegion={{
-              latitude: 31.458145,
-              longitude: 74.333131,
+            region={{
+              latitude: this.state.lat,
+              longitude: this.state.long,
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}>
-            <Marker
-              coordinate={{latitude: 31.456283, longitude: 74.338255}}
-              title={'Home'}></Marker>
+            <Marker  draggable
+
+              coordinate={{latitude: this.state.lat, longitude: this.state.long}}
+              onDragEnd={(e) => {
+                console.log('dragEnd', e.nativeEvent.coordinate);
+                const coords = e.nativeEvent.coordinate;
+                this.setState({
+                  lat: e.nativeEvent.coordinate.latitude,
+                  long: e.nativeEvent.coordinate.longitude
+                }, () => {
+                  this.props.updateCoords(coords);
+                });
+              }}
+              title={'Home'} >
+
+              </Marker>
           </MapView>
         </View>
       </View>
     );
   }
 }
+
+export default GoogleMapRequestDisplay;
 
 const styles = StyleSheet.create({
   container: {
