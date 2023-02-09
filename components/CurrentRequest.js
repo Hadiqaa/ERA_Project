@@ -11,7 +11,7 @@ import {Text,
           } from "react-native";
 
 
-  const baseUrl = "http://192.168.18.5:1337";
+  const baseUrl = "https://era-fyp-23.herokuapp.com";
 
   const onSubmitFormHandler = async (event) => {
             console.log('success');
