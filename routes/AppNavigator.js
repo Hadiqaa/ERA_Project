@@ -10,6 +10,11 @@ import UserDashboard from '../components/UserDashboard';
 import AddNewRequest from '../components/AddNewRequest';
 import Dashboard from '../components/Dashboard';
 import RequestsDetail from '../components/RequestsDetail';
+import AdminDashboard from '../components/adminscreens/AdminDashboard';
+import AddNewUser from '../components/adminscreens/AddNewUser';
+import UserslistPage from '../components/adminscreens/UserslistPage';
+import RequestlistPage from '../components/adminscreens/RequestlistPage';
+
 
 
 const {Navigator , Screen} = createNativeStackNavigator();
@@ -26,6 +31,10 @@ const AppNavigator =() => (
         <Screen name="AddNewRequest" component={AddNewRequest} />
         <Screen name="Dashboard" component={Dashboard} />
         <Screen name="RequestsDetail" component={RequestsDetail} />
+        <Screen name="AdminDashboard" component={AdminDashboard} />
+        <Screen name="AddNewUser" component={AddNewUser} />
+        <Screen name="UserslistPage" component={UserslistPage} />
+        <Screen name="RequestlistPage" component={RequestlistPage} />
         
       </Navigator>
     </NavigationContainer>

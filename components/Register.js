@@ -5,7 +5,7 @@ import {
   Text,
   ScrollView,
   View,
-  SafeAreaView,
+  Alert,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -47,8 +47,10 @@ const Register = ({navigation}) => {
           handleSubmit();
           setIsLoading(false);
           console.log(data);
+          Alert.alert('Congrats!','You have successfuly signed up');
         })
         .catch(e => {
+          Alert.alert('Oopss!','Error , Please make sure your data is correct');
           console.log('failed');
           setIsLoading(false);
           console.log(e);

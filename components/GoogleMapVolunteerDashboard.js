@@ -89,7 +89,7 @@ import {Text,
     }
 
     locateCurrentPosition = () => {
-      Geolocation.getCurrentPosition(
+      Geolocation.watchPosition(
         (position) => {
           console.log(position);
           const currentLongitude =
