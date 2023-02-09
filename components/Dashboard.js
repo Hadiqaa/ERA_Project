@@ -6,9 +6,9 @@ import GoogleMapVolunteerDashboard from './GoogleMapVolunteerDashboard';
 
 const Dashboard = () => {
   return (
-    <View >
-      <GoogleMapVolunteerDashboard/>
-     
+    <View style={{flex: 1}}>
+      <GoogleMapVolunteerDashboard />
+      <CurrentRequest />
     </View>
   );
 };
