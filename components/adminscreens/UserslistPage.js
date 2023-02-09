@@ -9,7 +9,7 @@ import {Text,
         ScrollView,
           } from "react-native";
 
-const UserlistPage = () => {
+const UserslistPage = () => {
 
 
 

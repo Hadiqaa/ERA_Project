@@ -7,7 +7,7 @@ import {Text,
         SafeAreaView,
         StyleSheet,
         TextInput,
-        Button,
+        Alert,
         TouchableOpacity
           } from "react-native";
 
@@ -21,7 +21,7 @@ const Login = ({}) => {
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
 
-loginValidator = ()=> {
+loginValidator = () => {
 
   if (username== "") {
     alert("Please Enter username")
@@ -58,11 +58,17 @@ const onSubmitFormHandler = async (event) => {
       navigation.navigate('UserDashboard')
    
      }
+
+     if(res.data.user.roles === 'admin'){
+      navigation.navigate('AdminDashboard')
+   
+     }
     
     console.log('succeeded');
     setIsLoading(false);
     console.log(res);
   }).catch(e => {
+    Alert.alert('Error Oops! Could not log in.');
     console.log('failed');
     setIsLoading(false);
     console.log(e);

@@ -9,7 +9,7 @@ import {Text,
         ScrollView,
           } from "react-native";
 
-const RequestsDetail = () => {
+const RequestlistPage = () => {
 
 
 
@@ -133,4 +133,4 @@ req_name:{
 
 });
 
-export default RequestsDetail;
+export default RequestlistPage;

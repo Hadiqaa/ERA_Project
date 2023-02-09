@@ -5,16 +5,15 @@ import AppNavigator from './routes/AppNavigator'
 import {View} from 'react-native';
 import Login from './components/Login'
 import AddNewRequest from './components/AddNewRequest';
-import ActiveRequest from './components/ActiveRequest';
-import CurrentRequest from './components/CurrentRequest';
-import Dashboard from './components/GoogleMapVolunteerDashboard';
+import AddNewUser from './components/adminscreens/AddNewUser';
+import UserslistPage from './components/adminscreens/UserslistPage';
 
 
 
 const App = () => {
   return (
     <View style={{ flex: 1 }}>
-      <Dashboard/>
+      <AppNavigator/>
     </View>
   );
 
