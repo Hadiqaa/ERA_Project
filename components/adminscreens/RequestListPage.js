@@ -2,7 +2,7 @@
 
 import axios from 'axios';
 import React , {useState,useEffect} from 'react';
-import UsersList from './UsersList';
+import RequestList from './RequestList';
 import {Text,
         View ,
         TouchableOpacity,
@@ -16,40 +16,40 @@ import {Text,
 
           const baseUrl = 'https://era-fyp-23.herokuapp.com';
 
-const UserslistPage = () => {
+const RequestListPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [users, setUsers] = useState([]);
+  const [request, setRequest] = useState([]);
 
   useEffect(()=>{
-     getUsers()
+     getRequest()
   },[])
 
   const deleteOperation = async (id) => {
     console.log(id)
     axios
-    .delete(`${baseUrl}/api/users/${id}`)
+    .delete(`${baseUrl}/api/requests/${id}`)
     .then( res => {
-      getUsers();
+      getRequest();
       setIsLoading(false);
-      Alert.alert('User Deleted');
+      Alert.alert('Request Deleted');
     
     })
     .catch(e => {
-     Alert.alert('Could not Deleted the User');
+     Alert.alert('Could not Deleted the Request');
       setIsLoading(false);
       console.log(e);
     });
    }
 
   
-  const getUsers = async event => {
+  const getRequest = async event => {
     console.log('calling');
       setIsLoading(true);
       axios
-        .get(`${baseUrl}/api/users`)
+        .get(`${baseUrl}/api/requests?populate=*`)
         .then( async res => {
-          setUsers(res.data);
-          console.log(res.data);
+          setRequest(res.data.data);
+          console.log(res.data.data);
           setIsLoading(false);
           console.log('success');
         
@@ -68,15 +68,15 @@ const UserslistPage = () => {
 
         <View style={styles.title}>
             <Text style={styles.titletext}>
-             USERS LIST
+             REQUEST LIST
             </Text>
         </View>
 
 
-      <FlatList data={users}
+      <FlatList data={request}
       keyExtractor={(item,index) => 'key' + index} 
       renderItem={({item})=> {
-        return <UsersList deleteUser={deleteOperation} item={item}/> 
+        return <RequestList deleteRequest={deleteOperation} item={item}/> 
       }}>
     
     </FlatList>
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default UserslistPage;
+export default RequestListPage;

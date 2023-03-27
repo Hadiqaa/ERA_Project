@@ -6,20 +6,17 @@ import {Text,
         TouchableOpacity
           } from "react-native";
 import MyModal from './MyModal';
-// <View>
-//    <Text>Hi </Text>
-// </View>
+
 const UsingModal = () => {
 
-
-
   return(
+<>
 
-    <MyModal isVisible={true}>
-     <View><Text> HI </Text></View>
-</MyModal>
+<MyModal isVisible={true}>
+  <View><TouchableOpacity> HI </TouchableOpacity></View>
+ </MyModal>
 
-
+ </>
 
   );
 }

@@ -7,13 +7,13 @@ import Login from '../components/Login';
 import Register from '../components/Register';
 import Forget from '../components/Forget';
 import UserDashboard from '../components/UserDashboard';
+import RequestListPage from '../components/adminscreens/RequestListPage';
 import AddNewRequest from '../components/AddNewRequest';
 import Dashboard from '../components/Dashboard';
 import RequestsDetail from '../components/RequestsDetail';
 import AdminDashboard from '../components/adminscreens/AdminDashboard';
 import AddNewUser from '../components/adminscreens/AddNewUser';
 import UserslistPage from '../components/adminscreens/UserslistPage';
-import RequestlistPage from '../components/adminscreens/RequestlistPage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
@@ -36,7 +36,7 @@ const LogOut = () => {
           })();
         }}
         activeOpacity={0.5}
-        style={styles.loginbtn}>
+        >
         <Text style={styles.buttonText}>Logout</Text>
       </TouchableOpacity>
     </>
@@ -54,7 +54,7 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      <Navigator headerMode="none">
+      <Navigator >
         <Screen name="WelcomePage" component={Welcome} />
         <Screen name="Login" component={Login} />
         <Screen name="Register" component={Register} />
@@ -66,7 +66,7 @@ const AppNavigator = () => {
         <Screen name="AdminDashboard" component={AdminDashboard} />
         <Screen name="AddNewUser" component={AddNewUser} />
         <Screen name="UserslistPage" component={UserslistPage} />
-        <Screen name="RequestlistPage" component={RequestlistPage} />
+        <Screen name="RequestListPage" component={RequestListPage} />
       </Navigator>
     </NavigationContainer>
   );

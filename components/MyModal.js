@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from "react-native";
 
 const MyModal = () => {
+
+
   const [modalVisible, setModalVisible] = useState(false);
   return (
     <View style={styles.centeredView}>
@@ -9,10 +11,7 @@ const MyModal = () => {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
+        
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -26,12 +25,12 @@ const MyModal = () => {
           </View>
         </View>
       </Modal>
-      <Pressable
+      {/* <Pressable
         style={[styles.button, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
       >
         <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };

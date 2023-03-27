@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-import Dashboard from './Dashboard';
+
 import {
   Text,
   View,

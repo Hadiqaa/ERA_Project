@@ -14,10 +14,15 @@ import {
   Alert,
   Platform,
   PermissionsAndroid,
+  FlatList,
 } from 'react-native';
 import MapViewDirections from 'react-native-maps-directions';
 
 export default class GoogleMapRequestDisplay extends Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+  }
   state = {
     lat: 31.458145,
     long: 74.333131,
@@ -25,13 +30,18 @@ export default class GoogleMapRequestDisplay extends Component {
 
   componentDidMount() {
     this.requestLocationPermission();
+    console.log('here...', this.props.coords);
+  }
+  
+
+  componentDidUpdate() {
+    console.log('updated...', this.props);
   }
 
-  request = () => {
-    Alert.alert(
-      'Alert Title',
-      'Request Here', // Request title  here
-      [
+  request = (item) => {
+    const alertTitle = item.attributes.title;
+    const alertDesc = item.attributes.description;
+    Alert.alert(alertTitle, alertTitle, [
         {
           text: 'Cancel',
           style: 'cancel',
@@ -42,6 +52,7 @@ export default class GoogleMapRequestDisplay extends Component {
       ],
     );
   };
+
 
   //    useEffect() => {
   //   const requestLocationPermission = async () => {
@@ -129,6 +140,30 @@ export default class GoogleMapRequestDisplay extends Component {
     );
   };
 
+  renderMarkers = () => {
+    if (this.props.coords !== null && this.props.coords.length > 0) {
+      return this.props.coords.map((item, index) => {
+        return (
+          <Marker key={index}
+            title={item.attributes.title}
+            description={item.attributes.description}
+            onPress={() => this.request(item)}
+            coordinate={{
+              latitude: item.attributes.task_location_lat,
+              longitude: item.attributes.task_location_lng
+            }}
+          >
+          </Marker>
+        );
+      });
+    }
+
+    return '';
+  }
+
+
+
+
   render() {
     return (
       <View style={styles.container}>
@@ -150,11 +185,15 @@ export default class GoogleMapRequestDisplay extends Component {
                 latitude: this.state.lat,
                 longitude: this.state.long,
               }}
-              onPress={this.request}
               title={'Home'}
               image={{uri: 'car_pin'}}
             />
-            <MapViewDirections
+
+          {
+            this.props.coords !== null && this.renderMarkers()
+          }
+          
+            {/* <MapViewDirections
               origin={{latitude: this.state.lat, longitude: this.state.long}}
               destination={{
                 latitude: 31.4434,
@@ -163,8 +202,9 @@ export default class GoogleMapRequestDisplay extends Component {
               apikey={'AIzaSyApVUiwtxnnGg5C-Jqc3enfAzTcdNFmgH4'}
               strokeWidth={8}
               strokeColor="#2596be"
-            />
+            /> */}
           </MapView>
+
         </View>
       </View>
     );

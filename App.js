@@ -7,13 +7,16 @@ import Login from './components/Login'
 import AddNewRequest from './components/AddNewRequest';
 import AddNewUser from './components/adminscreens/AddNewUser';
 import UserslistPage from './components/adminscreens/UserslistPage';
+import RequestListPage from './components/adminscreens/RequestListPage';
+import UsingModal from './components/UsingModal';
+import Dashboard from './components/Dashboard';
 
 
 
 const App = () => {
   return (
     <View style={{ flex: 1 }}>
-      <AppNavigator/>
+      <Dashboard/>
     </View>
   );
 
