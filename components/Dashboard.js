@@ -1,7 +1,7 @@
 //Volunteer Screen
 import React, { useState, useEffect } from 'react';
 import CurrentRequest from './CurrentRequest';
-import {Text,View  } from "react-native";
+import {Text,View,Alert  } from "react-native";
 import GoogleMapVolunteerDashboard from './GoogleMapVolunteerDashboard';
 import axios from 'axios';
 
@@ -39,9 +39,30 @@ const Dashboard = () => {
         });
   };
 
+  const updateStatus = async (item) => {
+    const data = {...item, attributes: { ...item.attributes, task_status: "STARTED" }};
+    // data.attributes.task_status = "started";
+    console.log('sending it away, ', data);
+    axios
+    .put(`${baseUrl}/api/requests/${item.id}`, { data: data })
+    .then( res => {
+      // this.setState({task_status : "started"})
+      Request();
+      setIsLoading(false);
+      console.log('Task Started');
+      console.log(res);
+    
+    })
+    .catch(e => {
+     Alert.alert('Ooops! Could not start the task');
+      setIsLoading(false);
+      console.log(e);
+    });
+   }
+
   return (
     <View style={{flex: 1}}>
-      <GoogleMapVolunteerDashboard coords={coords} />
+      <GoogleMapVolunteerDashboard coords={coords} updateStatus={updateStatus}/>
       <CurrentRequest />
     </View>
   );

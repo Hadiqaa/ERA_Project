@@ -45,15 +45,15 @@ const Login = ({}) => {
 
   loginValidator = () => {
     if (username == '') {
-      alert('Please Enter username');
+      Alert.alert('Please Enter username');
       return false;
     }
     if (password == '') {
-      alert('Please Enter Password');
+      Alert.alert('Please Enter Password');
       return false;
     }
     if (password.length < 6) {
-      alert('Please Enter a Valid password');
+      Alert.alert('Please Enter a Valid password');
       return false;
     }
 

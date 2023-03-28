@@ -38,7 +38,7 @@ export default class GoogleMapRequestDisplay extends Component {
     console.log('updated...', this.props);
   }
 
-  request = (item) => {
+  request = (item, update) => {
     const alertTitle = item.attributes.title;
     const alertDesc = item.attributes.description;
     Alert.alert(alertTitle, alertTitle, [
@@ -47,7 +47,7 @@ export default class GoogleMapRequestDisplay extends Component {
           style: 'cancel',
         },
         {
-          text: 'Accept', // go to current request
+          text: 'Accept', onPress: () => {this.props.updateStatus(item)} // go to current request
         },
       ],
     );

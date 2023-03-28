@@ -10,13 +10,15 @@ import UserslistPage from './components/adminscreens/UserslistPage';
 import RequestListPage from './components/adminscreens/RequestListPage';
 import UsingModal from './components/UsingModal';
 import Dashboard from './components/Dashboard';
+import RequestsDetail from './components/RequestsDetail';
+import ActiveRequest from './components/ActiveRequest';
 
 
 
 const App = () => {
   return (
     <View style={{ flex: 1 }}>
-      <Dashboard/>
+      <ActiveRequest/>
     </View>
   );
 

@@ -50,11 +50,11 @@ const RequestForm = (props) => {
 
   const validateRequestFields = () => {
     if (title == '') {
-      alert('Please Enter a Title');
+      Alert.alert('Please Enter a Title');
       return false;
     }
     if (description == '') {
-      alert('Please Enter the Description');
+      Alert.alert('Please Enter the Description');
       return false;
     }
     // if (address == '') {
